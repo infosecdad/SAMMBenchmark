@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS SubOrg (
 DROP TABLE IF EXISTS SAMM_Model;
 
 CREATE TABLE IF NOT EXISTS SAMM_Model (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id INTEGER PRIMARY KEY,
   version VARCHAR(64) NOT NULL,
   description VARCHAR(1000) NOT NULL,
   release_date DATE NOT NULL,
@@ -219,6 +219,18 @@ CREATE TABLE IF NOT EXISTS Activity (
 
 
 -- -----------------------------------------------------
+-- Table AnswerSet
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS AnswerSet;
+
+CREATE TABLE IF NOT EXISTS AnswerSet (
+  id VARCHAR(128) PRIMARY KEY NOT NULL,
+  text VARCHAR(256),
+  description VARCHAR(1000)
+  );
+
+
+-- -----------------------------------------------------
 -- Table AssessmentQuestion
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS AssessmentQuestion;
@@ -227,9 +239,12 @@ CREATE TABLE IF NOT EXISTS AssessmentQuestion (
   id VARCHAR(128) PRIMARY KEY,
   question_text VARCHAR(256) NOT NULL,
   ordinal INTEGER NOT NULL,
-  activity_id VARCHAR(128) NULL,
+  activity_id VARCHAR(128) NOT NULL,
+  answerset_id VARCHAR(128) NOT NULL,
+  question_code VARCHAR(128) NOT NULL,
   quality_description VARCHAR(1000),
-  CONSTRAINT fk_aq_activity FOREIGN KEY(activity_id) REFERENCES Activity(id)
+  CONSTRAINT fk_aq_activity FOREIGN KEY(activity_id) REFERENCES Activity(id),
+  CONSTRAINT fk_aq_answerset FOREIGN KEY(answerset_id) REFERENCES AnswerSet(id)
   );
 
 
@@ -244,18 +259,6 @@ CREATE TABLE IF NOT EXISTS QuestionnaireQuestion (
   PRIMARY KEY (sammModel_id, assessmentQuestion_id),
   CONSTRAINT fk_qq_sammmodel FOREIGN KEY(sammModel_id) REFERENCES SAMM_Model(id),
   CONSTRAINT fk_qq_assessmentquestion FOREIGN KEY(assessmentQuestion_id) REFERENCES AssessmentQuestion(id)
-  );
-
-
--- -----------------------------------------------------
--- Table AnswerSet
--- -----------------------------------------------------
-DROP TABLE IF EXISTS AnswerSet;
-
-CREATE TABLE IF NOT EXISTS AnswerSet (
-  id VARCHAR(128) PRIMARY KEY NOT NULL,
-  text VARCHAR(256),
-  description VARCHAR(1000)
   );
 
 
@@ -294,7 +297,7 @@ CREATE TABLE IF NOT EXISTS AssessPractice (
 DROP TABLE IF EXISTS Answer;
 
 CREATE TABLE IF NOT EXISTS Answer (
-  id VARCHAR(128) PRIMARY KEY NOT NULL,
+  id VARCHAR(128) PRIMARY KEY,
   text VARCHAR(256) NOT NULL,
   value DECIMAL(3) NOT NULL,
   weight DECIMAL(3),
@@ -308,12 +311,12 @@ CREATE TABLE IF NOT EXISTS Answer (
 DROP TABLE IF EXISTS AssessedQuestion;
 
 CREATE TABLE IF NOT EXISTS AssessedQuestion (
-  assessment_id INTEGER NOT NULL,
+  assessment_id PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   assessmentQuestion_id VARCHAR(128) NOT NULL,
   answer_id VARCHAR(128) NOT NULL,
   priority VARCHAR(45),
   notes VARCHAR(2000),
-  PRIMARY KEY (assessment_id, assessmentQuestion_id, answer_id),
+  PRIMARY KEY (assessment_id, assessmentQuestion_id),
   CONSTRAINT fk_aq_assessment FOREIGN KEY(assessment_id) REFERENCES Assessment(id),
   CONSTRAINT fk_aq_assessmentquestion FOREIGN KEY(assessmentQuestion_id) REFERENCES AssessmentQuestion(id),
   CONSTRAINT fk_aq_answer FOREIGN KEY(answer_id) REFERENCES Answer(id)
@@ -340,7 +343,7 @@ CREATE TABLE IF NOT EXISTS AnswerMap (
 DROP TABLE IF EXISTS AssessorOrganization;
 
 CREATE TABLE IF NOT EXISTS AssessorOrganization (
-  assessor_id INTEGER NOT NULL,
+  assessor_id PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   organization_id INTEGER NOT NULL,
   PRIMARY KEY (assessor_id, organization_id),
   CONSTRAINT fk_ao_assessor FOREIGN KEY(assessor_id) REFERENCES Assessor(id),
