@@ -210,7 +210,8 @@ CREATE TABLE IF NOT EXISTS Activity (
   metrics VARCHAR(4000) NULL,
   costs VARCHAR(4000) NULL,
   notes VARCHAR(4000) NULL,
-  CONSTRAINT fk_act_practicelevel FOREIGN KEY(practiceLevel_id) REFERENCES PracticeLevel(id)
+  CONSTRAINT fk_act_practicelevel FOREIGN KEY(practiceLevel_id) REFERENCES PracticeLevel(id),
+  CONSTRAINT fk_act_stream FOREIGN KEY(stream_id) REFERENCES Stream(id)
   );
 
 
