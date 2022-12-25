@@ -1,10 +1,34 @@
+-- ---------------------
+-- Clean Up time
+-- ---------------------
+DROP TABLE IF EXISTS AssessorOrganization;
+DROP TABLE IF EXISTS AnswerMap;
+DROP TABLE IF EXISTS AssessedQuestion;
+DROP TABLE IF EXISTS Answer;
+DROP TABLE IF EXISTS AssessPractice;
+DROP TABLE IF EXISTS QuestionResponse;
+DROP TABLE IF EXISTS QuestionnaireQuestion;
+DROP TABLE IF EXISTS AssessmentQuestion;
+DROP TABLE IF EXISTS AnswerSet;
+DROP TABLE IF EXISTS Activity;
+DROP TABLE IF EXISTS PracticeLevel;
+DROP TABLE IF EXISTS Stream;
+DROP TABLE IF EXISTS SecurityPractice;
+DROP TABLE IF EXISTS BusinessFunction;
+DROP TABLE IF EXISTS MaturityLevel;
+DROP TABLE IF EXISTS Assessment;
+DROP TABLE IF EXISTS Assessor;
+DROP TABLE IF EXISTS AssessmentMethod;
+DROP TABLE IF EXISTS SAMM_Model;
+DROP TABLE IF EXISTS SubOrg;
+DROP TABLE IF EXISTS Organization;
+DROP TABLE IF EXISTS Region;
+DROP TABLE IF EXISTS Industry;
 
 
 -- -----------------------------------------------------
 -- Table Industry
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Industry;
-
 CREATE TABLE IF NOT EXISTS Industry (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(256) NOT NULL,
@@ -15,8 +39,6 @@ CREATE TABLE IF NOT EXISTS Industry (
 -- -----------------------------------------------------
 -- Table Region
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Region;
-
 CREATE TABLE IF NOT EXISTS Region (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(256),
@@ -27,8 +49,6 @@ CREATE TABLE IF NOT EXISTS Region (
 -- -----------------------------------------------------
 -- Table Organization
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Organization;
-
 CREATE TABLE IF NOT EXISTS Organization (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   industry_id INTEGER,
@@ -45,8 +65,6 @@ CREATE TABLE IF NOT EXISTS Organization (
 -- -----------------------------------------------------
 -- Table SubOrg
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS SubOrg;
-
 CREATE TABLE IF NOT EXISTS SubOrg (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   organization_id INTEGER,
@@ -60,8 +78,6 @@ CREATE TABLE IF NOT EXISTS SubOrg (
 -- -----------------------------------------------------
 -- Table SAMM_Model
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS SAMM_Model;
-
 CREATE TABLE IF NOT EXISTS SAMM_Model (
   id INTEGER PRIMARY KEY,
   version VARCHAR(64) NOT NULL,
@@ -74,8 +90,6 @@ CREATE TABLE IF NOT EXISTS SAMM_Model (
 -- -----------------------------------------------------
 -- Table AssessmentMethod
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AssessmentMethod;
-
 CREATE TABLE IF NOT EXISTS AssessmentMethod (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(256) NOT NULL,
@@ -86,8 +100,6 @@ CREATE TABLE IF NOT EXISTS AssessmentMethod (
 -- -----------------------------------------------------
 -- Table Assessor
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Assessor;
-
 CREATE TABLE IF NOT EXISTS Assessor (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(256) NOT NULL,
@@ -99,8 +111,6 @@ CREATE TABLE IF NOT EXISTS Assessor (
 -- -----------------------------------------------------
 -- Table Assessment
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Assessment;
-
 CREATE TABLE IF NOT EXISTS Assessment (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   sammModel_id INTEGER NOT NULL,
@@ -122,8 +132,6 @@ CREATE TABLE IF NOT EXISTS Assessment (
 -- -----------------------------------------------------
 -- Table MaturityLevel
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS MaturityLevel;
-
 CREATE TABLE IF NOT EXISTS MaturityLevel (
   id VARCHAR(128) PRIMARY KEY,
   name VARCHAR(128) NULL,
@@ -136,8 +144,6 @@ CREATE TABLE IF NOT EXISTS MaturityLevel (
 -- -----------------------------------------------------
 -- Table BusinessFunction
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS BusinessFunction;
-
 CREATE TABLE IF NOT EXISTS BusinessFunction (
   id VARCHAR(128) PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
@@ -149,8 +155,6 @@ CREATE TABLE IF NOT EXISTS BusinessFunction (
 -- -----------------------------------------------------
 -- Table SecurityPractice
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS SecurityPractice;
-
 CREATE TABLE IF NOT EXISTS SecurityPractice (
   id VARCHAR(128) PRIMARY KEY,
   name VARCHAR(128) NOT NULL,
@@ -166,8 +170,6 @@ CREATE TABLE IF NOT EXISTS SecurityPractice (
 -- -----------------------------------------------------
 -- Table Stream
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Stream;
-
 CREATE TABLE IF NOT EXISTS Stream (
   id VARCHAR(128) PRIMARY KEY,
   name VARCHAR(128) NULL,
@@ -180,11 +182,9 @@ CREATE TABLE IF NOT EXISTS Stream (
 -- -----------------------------------------------------
 -- Table PracticeLevel
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS PracticeLevel;
-
 CREATE TABLE IF NOT EXISTS PracticeLevel (
   id VARCHAR(128) PRIMARY KEY,
-  objective VARCHAR(128) NULL,
+  objective VARCHAR(1000) NULL,
   description VARCHAR(1000) NULL,
   maturityLevel_id VARCHAR(128) NOT NULL,
   securityPractice_id VARCHAR(128) NOT NULL,
@@ -196,33 +196,27 @@ CREATE TABLE IF NOT EXISTS PracticeLevel (
 -- -----------------------------------------------------
 -- Table Activity
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Activity;
-
 CREATE TABLE IF NOT EXISTS Activity (
   id VARCHAR(128) PRIMARY KEY,
   stream_id VARCHAR(128) NOT NULL,
   practiceLevel_id VARCHAR(128) NOT NULL,
   title VARCHAR(128) NULL,
-  benefit VARCHAR(1000) NULL,
-  desc_short VARCHAR(1000) NULL,
-  desc_long VARCHAR(2000) NULL,
+  benefit VARCHAR(2000) NULL,
+  desc_short VARCHAR(2000) NULL,
+  desc_long VARCHAR(8000) NULL,
   code VARCHAR(45) NULL,
   ordinal INTEGER NULL,
-  results VARCHAR(1000) NULL,
-  metrics VARCHAR(1000) NULL,
-  costs VARCHAR(1000) NULL,
-  notes VARCHAR(2000) NULL,
-  securityPractice_id VARCHAR(128) NOT NULL,
-  CONSTRAINT fk_act_practicelevel FOREIGN KEY(practiceLevel_id) REFERENCES PracticeLevel(id),
-  CONSTRAINT fk_act_securitypractice FOREIGN KEY(securityPractice_id) REFERENCES SecurityPractice(id)
+  results VARCHAR(4000) NULL,
+  metrics VARCHAR(4000) NULL,
+  costs VARCHAR(4000) NULL,
+  notes VARCHAR(4000) NULL,
+  CONSTRAINT fk_act_practicelevel FOREIGN KEY(practiceLevel_id) REFERENCES PracticeLevel(id)
   );
 
 
 -- -----------------------------------------------------
 -- Table AnswerSet
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AnswerSet;
-
 CREATE TABLE IF NOT EXISTS AnswerSet (
   id VARCHAR(128) PRIMARY KEY NOT NULL,
   text VARCHAR(256),
@@ -233,8 +227,6 @@ CREATE TABLE IF NOT EXISTS AnswerSet (
 -- -----------------------------------------------------
 -- Table AssessmentQuestion
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AssessmentQuestion;
-
 CREATE TABLE IF NOT EXISTS AssessmentQuestion (
   id VARCHAR(128) PRIMARY KEY,
   question_text VARCHAR(256) NOT NULL,
@@ -251,8 +243,6 @@ CREATE TABLE IF NOT EXISTS AssessmentQuestion (
 -- -----------------------------------------------------
 -- Table QuestionnaireQuestion
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS QuestionnaireQuestion;
-
 CREATE TABLE IF NOT EXISTS QuestionnaireQuestion (
   sammModel_id INTEGER NOT NULL,
   assessmentQuestion_id VARCHAR(128) NOT NULL,
@@ -265,8 +255,6 @@ CREATE TABLE IF NOT EXISTS QuestionnaireQuestion (
 -- -----------------------------------------------------
 -- Table QuestionResponse
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS QuestionResponse;
-
 CREATE TABLE IF NOT EXISTS QuestionResponse (
   assessmentQuestion_id VARCHAR(128) NOT NULL,
   answerSet_id VARCHAR(128) NOT NULL,
@@ -279,8 +267,6 @@ CREATE TABLE IF NOT EXISTS QuestionResponse (
 -- -----------------------------------------------------
 -- Table AssessPractice
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AssessPractice;
-
 CREATE TABLE IF NOT EXISTS AssessPractice (
   assessment_id INTEGER NOT NULL,
   securityPractice_id VARCHAR(128) NOT NULL,
@@ -294,8 +280,6 @@ CREATE TABLE IF NOT EXISTS AssessPractice (
 -- -----------------------------------------------------
 -- Table Answer
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Answer;
-
 CREATE TABLE IF NOT EXISTS Answer (
   id VARCHAR(128) PRIMARY KEY,
   text VARCHAR(256) NOT NULL,
@@ -308,10 +292,8 @@ CREATE TABLE IF NOT EXISTS Answer (
 -- -----------------------------------------------------
 -- Table AssessedQuestion
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AssessedQuestion;
-
 CREATE TABLE IF NOT EXISTS AssessedQuestion (
-  assessment_id PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  assessment_id INTEGER NOT NULL,
   assessmentQuestion_id VARCHAR(128) NOT NULL,
   answer_id VARCHAR(128) NOT NULL,
   priority VARCHAR(45),
@@ -326,8 +308,6 @@ CREATE TABLE IF NOT EXISTS AssessedQuestion (
 -- -----------------------------------------------------
 -- Table AnswerMap
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AnswerMap;
-
 CREATE TABLE IF NOT EXISTS AnswerMap (
   answerSet_id VARCHAR(128) NOT NULL,
   answer_id VARCHAR(128) NOT NULL,
@@ -340,15 +320,10 @@ CREATE TABLE IF NOT EXISTS AnswerMap (
 -- -----------------------------------------------------
 -- Table AssessorOrganization
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS AssessorOrganization;
-
 CREATE TABLE IF NOT EXISTS AssessorOrganization (
-  assessor_id PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  assessor_id INTEGER NOT NULL,
   organization_id INTEGER NOT NULL,
   PRIMARY KEY (assessor_id, organization_id),
   CONSTRAINT fk_ao_assessor FOREIGN KEY(assessor_id) REFERENCES Assessor(id),
   CONSTRAINT fk_ao_organization FOREIGN KEY(organization_id) REFERENCES Organization(id)
   );
-
-
-

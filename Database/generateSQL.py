@@ -96,7 +96,7 @@ for eachfile in os.listdir(source):
 
     objective = str(prac['objective']).replace("'", "''").replace("“","\"").replace("”","\"")
 
-    insert = "INSERT INTO practicelevel VALUES('{}','{}','{}','{}');".format(prac['id'], objective, prac['maturitylevel'], prac['practice'])
+    insert = "INSERT INTO practicelevel VALUES('{}','{}','{}','{}','{}');".format(prac['id'], objective, "", prac['maturitylevel'], prac['practice'])
     
     f = open("Database/insert_model.pgsql", "a")
     f.write(insert + "\n")
@@ -124,7 +124,7 @@ for eachfile in os.listdir(source):
     costs = str(prac['costs']).replace("'", "''").replace("“","\"").replace("”","\"")
     notes = str(prac['notes']).replace("'", "''").replace("“","\"").replace("”","\"")
 
-    insert = "INSERT INTO activity VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');".format(prac['id'],prac['stream'],prac['level'],title,benefit,shortDesc,longDesc,"","1",results,metrics,costs,notes,"")
+    insert = "INSERT INTO activity VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');".format(prac['id'],prac['stream'],prac['level'],title,benefit,shortDesc,longDesc,"","1",results,metrics,costs,notes)
     
     f = open("Database/insert_model.pgsql", "a")
     f.write(insert + "\n")
