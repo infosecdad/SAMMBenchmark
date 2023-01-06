@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS AnswerMap;
 DROP TABLE IF EXISTS AssessedQuestion;
 DROP TABLE IF EXISTS Answer;
 DROP TABLE IF EXISTS AssessPractice;
+DROP TABLE IF EXISTS AssessFunction;
 DROP TABLE IF EXISTS QuestionResponse;
 DROP TABLE IF EXISTS QuestionnaireQuestion;
 DROP TABLE IF EXISTS AssessmentQuestion;

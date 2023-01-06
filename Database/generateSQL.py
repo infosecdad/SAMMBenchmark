@@ -5,6 +5,10 @@ import os
 
 source = r'C:\Users\BrianGlas\Projects\SAMM\core\model\maturity_levels'
 
+f = open("Database/insert_model.pgsql", "w")
+f.write("\n")
+f.close()
+
 for eachfile in os.listdir(source):
     with open(source + '\\' + eachfile,'r') as file:
         matlvl = yaml.safe_load(file)

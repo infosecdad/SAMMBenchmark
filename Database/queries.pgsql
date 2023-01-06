@@ -1,5 +1,9 @@
 select * from activity;
 
+select answerset.id, answer.id, answerset.text, answer.text, answer.value from answer, answerset, answermap
+where answer.id = answermap.answer_id and answerset.id = answermap.answerset_id
+order by answerset.text asc
+
 select question_code from assessmentquestion, questionnairequestion, samm_model 
 where assessmentquestion.id = questionnairequestion.assessmentquestion_id 
 and questionnairequestion.sammmodel_id = samm_model.id 

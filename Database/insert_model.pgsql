@@ -1,3 +1,4 @@
+
 INSERT INTO maturitylevel VALUES('0a1dc80f84964f2fa776c5d8e932353a','1','The first maturity level aims at achieving an ad-hoc, best effort implementation of a particular activity within a stream.','1','1');
 INSERT INTO maturitylevel VALUES('47dd82af343e4695a0385418af4398d1','2','The second maturity level aims to establish a consistent, repeatable process that can be relied on.','2','2');
 INSERT INTO maturitylevel VALUES('7bbfe31d447e48759ef0f2af25c31b43','3','The third maturity level aims to maximize effectiveness through continuous improvement, based on effective and timely feedback.','3','3');
