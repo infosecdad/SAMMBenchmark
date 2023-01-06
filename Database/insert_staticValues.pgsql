@@ -19,6 +19,19 @@ INSERT INTO region(name, description) VALUES('Central America','');
 INSERT INTO region(name, description) VALUES('South America','');
 INSERT INTO region(name, description) VALUES('Middle East','');
 
+INSERT INTO emp_size(range, description) VALUES('1-99','');
+INSERT INTO emp_size(range, description) VALUES('100-999','');
+INSERT INTO emp_size(range, description) VALUES('1000-9999','');
+INSERT INTO emp_size(range, description) VALUES('10000-99999','');
+INSERT INTO emp_size(range, description) VALUES('100000+','');
+
+INSERT INTO dev_size(range, description) VALUES('1-49','');
+INSERT INTO dev_size(range, description) VALUES('50-99','');
+INSERT INTO dev_size(range, description) VALUES('100-499','');
+INSERT INTO dev_size(range, description) VALUES('500-999','');
+INSERT INTO dev_size(range, description) VALUES('1000-1999','');
+INSERT INTO dev_size(range, description) VALUES('2000+','');
+
 INSERT INTO samm_model(id, version, description, release_date) VALUES('1','1.0','','2009/03/25');
 INSERT INTO samm_model(id, version, description, release_date) VALUES('2','1.1','','2016/03/16');
 INSERT INTO samm_model(id, version, description, release_date) VALUES('3','1.5','','2017/04/13');

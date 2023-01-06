@@ -24,6 +24,28 @@ DROP TABLE IF EXISTS SubOrg;
 DROP TABLE IF EXISTS Organization;
 DROP TABLE IF EXISTS Region;
 DROP TABLE IF EXISTS Industry;
+DROP TABLE IF EXISTS Dev_size;
+DROP TABLE IF EXISTS Emp_size;
+
+
+-- -----------------------------------------------------
+-- Table Org Emp Size
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Emp_size (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  range VARCHAR(256) NOT NULL,
+  description VARCHAR(1000)
+  );
+
+
+-- -----------------------------------------------------
+-- Org Dev Size
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Dev_size (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  range VARCHAR(256) NOT NULL,
+  description VARCHAR(1000)
+  );
 
 
 -- -----------------------------------------------------
@@ -58,7 +80,9 @@ CREATE TABLE IF NOT EXISTS Organization (
   appsec_num INTEGER,
   public VARCHAR(64),
   CONSTRAINT fk_org_industry FOREIGN KEY(industry_id) REFERENCES Industry(id),
-  CONSTRAINT fk_org_region FOREIGN KEY(region_id) REFERENCES Region(id)
+  CONSTRAINT fk_org_region FOREIGN KEY(region_id) REFERENCES Region(id),
+  CONSTRAINT fk_org_empsize FOREIGN KEY(employee_num) REFERENCES Emp_size(id),
+  CONSTRAINT fk_org_devsize FOREIGN KEY(developer_num) REFERENCES Dev_size(id)
   );
 
 
@@ -117,10 +141,11 @@ CREATE TABLE IF NOT EXISTS Assessment (
   assessment_id INTEGER NOT NULL,
   assessment_date DATE NOT NULL,
   organization_id INTEGER NOT NULL,
-  suborg_id INTEGER NOT NULL,
+  suborg_id INTEGER,
   assessor_id INTEGER NOT NULL,
   method_id INTEGER NOT NULL,
   quality_lvl VARCHAR(64),
+  maturity_score NUMERIC(3,2),
   CONSTRAINT fk_asmt_sammmodel FOREIGN KEY(sammModel_id) REFERENCES SAMM_Model(id),
   CONSTRAINT fk_asmt_organization FOREIGN KEY(organization_id) REFERENCES Organization(id),
   CONSTRAINT fk_asmt_suborg FOREIGN KEY(suborg_id) REFERENCES SubOrg(id),
@@ -271,10 +296,23 @@ CREATE TABLE IF NOT EXISTS QuestionResponse (
 CREATE TABLE IF NOT EXISTS AssessPractice (
   assessment_id INTEGER NOT NULL,
   securityPractice_id VARCHAR(128) NOT NULL,
-  maturityscore DECIMAL(3) NOT NULL,
+  maturityscore NUMERIC(3,2) NOT NULL,
   PRIMARY KEY (assessment_id, securityPractice_id),
   CONSTRAINT fk_ap_assessment FOREIGN KEY(assessment_id) REFERENCES Assessment(id),
   CONSTRAINT fk_ap_securitypractice FOREIGN KEY(securityPractice_id) REFERENCES SecurityPractice(id)
+  );
+
+
+-- -----------------------------------------------------
+-- Table AssessFunction
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS AssessFunction (
+  assessment_id INTEGER NOT NULL,
+  businessFunction_id VARCHAR(128) NOT NULL,
+  maturityscore NUMERIC(3,2) NOT NULL,
+  PRIMARY KEY (assessment_id, businessFunction_id),
+  CONSTRAINT fk_af_assessment FOREIGN KEY(assessment_id) REFERENCES Assessment(id),
+  CONSTRAINT fk_af_businessfunction FOREIGN KEY(businessFunction_id) REFERENCES BusinessFunction(id)
   );
 
 
@@ -284,8 +322,8 @@ CREATE TABLE IF NOT EXISTS AssessPractice (
 CREATE TABLE IF NOT EXISTS Answer (
   id VARCHAR(128) PRIMARY KEY,
   text VARCHAR(256) NOT NULL,
-  value DECIMAL(3) NOT NULL,
-  weight DECIMAL(3),
+  value NUMERIC(3,2) NOT NULL,
+  weight NUMERIC(3),
   ordinal INTEGER NOT NULL
   );
 
