@@ -239,17 +239,17 @@ answers = [
 ['Z',1, '51466c3df15b45119e3fc68293f160343']
 ]
 
-wb = load_workbook(r'C:\Users\BrianGlas\Downloads\0955b81724f2e66ef44980a68ae18aba886499e6024bcc9c80db9b8f817a1af0.xlsx', read_only='true', data_only='true')
+wb = load_workbook(r'C:\Users\BrianGlas\Projects\SAMM\Assessments\RABET-V_SAMM_Assessment_Toolbox_v2.0-VRSystems.xlsx', read_only='true', data_only='true')
 
 # Map the two tabs needed from the excel toolbox
 ws = wb['Interview']
 sc = wb['Scorecard']
 
 # Update to match the next sequence number for each of these
-assess_id = 1
-assessor_id = 1
-organization_id = 1
-method_id = 1
+assess_id = 10
+assessor_id = 5
+organization_id = 8
+method_id = 2
 org_name = ws['D10'].value
 assess_date = ws['D12'].value
 assessor_name = ws['D13'].value
@@ -280,7 +280,7 @@ em = sc['C27'].value
 om = sc['C28'].value
 
 # INSERT Statements for the high level information about the assessment
-insert = "INSERT INTO ORGANIZATION(industry_id, region_id, employee_num, developer_num, appsec_num, public) VALUES (3,3,1,1,1,'{}');".format(org_name)
+insert = "INSERT INTO ORGANIZATION(industry_id, region_id, employee_num, developer_num, appsec_num, public) VALUES (3,4,1,1,0,'{}');".format(org_name)
 f = open("Database/insert_assessment.pgsql", "w")
 f.write(insert + "\n")
 f.close()
