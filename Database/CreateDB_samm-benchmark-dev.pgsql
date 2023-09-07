@@ -27,7 +27,18 @@ DROP TABLE IF EXISTS Region;
 DROP TABLE IF EXISTS Industry;
 DROP TABLE IF EXISTS Dev_size;
 DROP TABLE IF EXISTS Emp_size;
+DROP TABLE IF EXISTS Incoming_Data;
 
+-- -----------------------------------------------------
+-- Table Incoming Data
+-- -----------------------------------------------------
+CREATE SEQUENCE incoming_sequence;
+
+CREATE TABLE Incoming_Data (
+    id INTEGER PRIMARY KEY DEFAULT NEXTVAL('incoming_sequence'),
+    key VARCHAR(256) NOT NULL
+    value VARCHAR(256) NOT NULL
+);
 
 -- -----------------------------------------------------
 -- Table Org Emp Size
